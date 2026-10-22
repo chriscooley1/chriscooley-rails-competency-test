@@ -1,0 +1,17 @@
+- content_for :title, "Change password"
+section.auth-card
+  h1 Change your password
+  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |form|
+    = render "devise/shared/error_messages", resource: resource
+    = form.hidden_field :reset_password_token
+    .field
+      = form.label :password, "New password"
+      - if @minimum_password_length
+        p.hint= "#{@minimum_password_length} characters minimum."
+      = form.password_field :password, autofocus: true, autocomplete: "new-password", required: true
+    .field
+      = form.label :password_confirmation, "Confirm new password"
+      = form.password_field :password_confirmation, autocomplete: "new-password", required: true
+    .actions
+      = form.submit "Change my password"
+  = render "devise/shared/links"

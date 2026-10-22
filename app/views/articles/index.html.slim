@@ -1,5 +1,5 @@
 - content_for :title, (@category || "All stories")
-header.page-head
+header.page-head class=(@category&.parameterize)
   h1= @category || "All stories"
   - if logged_in?(:editor)
     = link_to "Write a story", new_article_path, class: "button"
@@ -7,12 +7,12 @@ header.page-head
 nav.section-nav
   = link_to "All", articles_path, class: ("active" unless @category)
   - Article::CATEGORIES.each do |category|
-    = link_to category, articles_path(category: category), class: ("active" if @category == category)
+    = link_to category, articles_path(category: category), class: [category.parameterize, ("active" if @category == category)]
 
 - if @articles.any?
   .story-index
     - @articles.each do |article|
-      article.story-row
+      article.story-row class=article.category.parameterize
         p.kicker= article.category
         h2= link_to article.title, article
         p.dek= article_excerpt(article)

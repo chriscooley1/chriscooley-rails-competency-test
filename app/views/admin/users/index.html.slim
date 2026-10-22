@@ -15,5 +15,6 @@ p.lede Create accounts and choose who can publish.
       - @users.each do |user|
         tr
           td= user.email
-          td= user.role_label
+          td
+            span.badge= user.role_label
           td.actions= link_to "Edit", edit_admin_user_path(user)

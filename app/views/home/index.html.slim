@@ -5,14 +5,14 @@
   p.lede The first three stories from each section. Create an account to read a story in full.
 
 - @articles_by_category.each do |category, articles|
-  section.category-block id="category-#{category.parameterize}"
+  section.category-block class=category.parameterize id="category-#{category.parameterize}"
     header.section-head
       h2= category
       = link_to "More #{category}", articles_path(category: category), class: "more"
     - if articles.any?
       .grid
-        - articles.each do |article|
-          article.story
+        - articles.each_with_index do |article, index|
+          article.story class=("lead" if index.zero?)
             h3= link_to article.title, article
             p.dek= article_excerpt(article)
             p.meta

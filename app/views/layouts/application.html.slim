@@ -13,13 +13,15 @@ html lang="en"
     = javascript_importmap_tags
   body
     header.masthead
+      .nameplate
+        .wrap
+          p.dateline= Date.current.strftime("%A, %B #{Date.current.day}, %Y")
+          - if current_page?(root_path)
+            h1.wordmark Simple News
+          - else
+            p.wordmark= link_to "Simple News", root_path
+          p.tagline Reporting, by section
       .wrap
-        p.dateline= Date.current.strftime("%A, %B #{Date.current.day}, %Y")
-        - if current_page?(root_path)
-          h1.wordmark Simple News
-        - else
-          p.wordmark= link_to "Simple News", root_path
-        p.tagline Reporting, by section
         nav
           = link_to "Home", root_path, class: ("active" if current_page?(root_path))
           = link_to "All stories", articles_path, class: ("active" if current_page?(articles_path))
