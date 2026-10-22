@@ -1,6 +1,6 @@
 # Simple News
 
-A small Rails newsroom. Anyone can browse the front page. Reading a full story requires an account. Editors publish and maintain their own stories. Admins can read stories and cannot publish. Assigning roles from the app comes in a later commit.
+A small Rails newsroom. Anyone can browse the front page. Reading a full story requires an account. Editors publish and maintain their own stories. Admins can read stories, cannot publish, and can create accounts and assign roles.
 
 ## Setup
 
@@ -26,7 +26,7 @@ Every seeded account uses the password `password123`.
 | --- | --- | --- |
 | reader@example.com | Reader | Read full stories |
 | editor@example.com | Editor | Publish, edit, and delete only their own stories |
-| admin@example.com | Admin | Read stories. Cannot publish, edit, or delete them |
+| admin@example.com | Admin | Read stories, create accounts, and assign roles. Cannot publish |
 
 Signup always creates a reader.
 

@@ -12,4 +12,8 @@ Rails.application.routes.draw do
 
   root "home#index"
   resources :articles
+
+  namespace :admin do
+    resources :users, only: [ :index, :new, :create, :edit, :update ]
+  end
 end

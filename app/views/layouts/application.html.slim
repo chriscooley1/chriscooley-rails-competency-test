@@ -15,6 +15,8 @@ html lang="en"
         = link_to "All stories", articles_path
         - if logged_in?(:editor)
           = link_to "Write", new_article_path
+        - if logged_in?(:admin)
+          = link_to "People", admin_users_path
         - if user_signed_in?
           = current_user.email
           = current_user.role_label
