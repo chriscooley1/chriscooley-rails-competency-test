@@ -17,6 +17,24 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     assert_redirected_to article_path(article)
     follow_redirect!
     assert_match "UNIQUE_TAIL_MARKER", response.body
+    created = User.find_by!(email: "reader2@example.com")
+    assert created.has_role?(:user)
+    assert_not created.has_role?(:admin)
+  end
+
+  test "signup cannot smuggle in an admin role" do
+    post user_registration_path, params: {
+      user: {
+        email: "sneaky@example.com",
+        password: "password123",
+        password_confirmation: "password123",
+        role: "admin"
+      }
+    }
+
+    created = User.find_by!(email: "sneaky@example.com")
+    assert created.has_role?(:user)
+    assert_not created.has_role?(:admin)
   end
 
   test "a reader can log in and log out" do

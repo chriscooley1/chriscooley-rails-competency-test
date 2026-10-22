@@ -3,6 +3,7 @@ p= @article.category
 p= @article.user.email
 h1= @article.title
 = simple_format(@article.content)
-p
-  = link_to "Edit", edit_article_path(@article)
-  = button_to "Delete", @article, method: :delete
+- if @article.manageable_by?(current_user)
+  p
+    = link_to "Edit", edit_article_path(@article)
+    = button_to "Delete", @article, method: :delete

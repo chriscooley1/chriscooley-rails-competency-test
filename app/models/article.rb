@@ -19,4 +19,8 @@ class Article < ApplicationRecord
       recent.includes(:user).where(category: category).limit(3).to_a
     end
   end
+
+  def manageable_by?(person)
+    person.present? && person.has_role?(:editor) && person.id == user_id
+  end
 end

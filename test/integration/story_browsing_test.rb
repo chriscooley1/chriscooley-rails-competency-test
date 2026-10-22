@@ -52,5 +52,17 @@ class StoryBrowsingTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_match "UNIQUE_TAIL_MARKER", response.body
+    assert_select "a", text: "Edit", count: 0
+  end
+
+  test "the author sees edit, and an admin does not" do
+    sign_in users(:editor)
+    get article_path(articles(:ultimate_newest))
+    assert_select "a", text: "Edit", count: 1
+
+    sign_in users(:admin)
+    get article_path(articles(:games_story))
+    assert_response :success
+    assert_select "a", text: "Edit", count: 0
   end
 end

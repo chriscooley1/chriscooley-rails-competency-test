@@ -13,9 +13,11 @@ html lang="en"
       nav
         = link_to "Home", root_path
         = link_to "All stories", articles_path
-        = link_to "Write", new_article_path
+        - if logged_in?(:editor)
+          = link_to "Write", new_article_path
         - if user_signed_in?
           = current_user.email
+          = current_user.role_label
           = link_to "Account", edit_user_registration_path
           = button_to "Log out", destroy_user_session_path, method: :delete
         - else

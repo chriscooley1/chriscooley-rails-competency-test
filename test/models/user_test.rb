@@ -8,4 +8,12 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors[:email], "can't be blank"
     assert_includes user.errors[:password], "can't be blank"
   end
+
+  test "signup leaves the person as a reader" do
+    user = User.create!(email: "new@example.com", password: "password123")
+
+    assert user.has_role?(:user)
+    assert_not user.has_role?(:editor)
+    assert_not user.has_role?(:admin)
+  end
 end

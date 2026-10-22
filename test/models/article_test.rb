@@ -30,4 +30,12 @@ class ArticleTest < ActiveSupport::TestCase
     assert_equal [ "Easy Miles" ], groups["Running"].map(&:title)
     assert_equal Article::CATEGORIES, groups.keys
   end
+
+  test "only the editor who wrote a story can manage it" do
+    assert articles(:ultimate_newest).manageable_by?(users(:editor))
+    assert_not articles(:games_story).manageable_by?(users(:editor))
+    assert_not articles(:games_story).manageable_by?(users(:admin))
+    assert_not articles(:ultimate_newest).manageable_by?(users(:reader))
+    assert_not articles(:ultimate_newest).manageable_by?(nil)
+  end
 end

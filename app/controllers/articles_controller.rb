@@ -1,7 +1,14 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_user!, except: [ :index, :show ]
+  # Guests may browse. Only editors may publish.
+  access "You do not have permission to change articles.",
+    all: [ :index, :show ],
+    editor: [ :new, :create, :edit, :update, :destroy ]
+
   before_action :set_article, only: [ :show, :edit, :update, :destroy ]
+  # Signup, rather than the login page Petergate uses for a denied guest.
   before_action :redirect_guests_to_signup, only: :show
+  # Petergate knows the role, not which editor wrote the story.
+  before_action :require_author, only: [ :edit, :update, :destroy ]
 
   def index
     @category = params[:category].presence_in(Article::CATEGORIES)
@@ -56,5 +63,11 @@ class ArticlesController < ApplicationController
 
       store_location_for(:user, article_path(@article))
       redirect_to new_user_registration_path, alert: "Create an account to read the full story."
+    end
+
+    def require_author
+      return if @article.manageable_by?(current_user)
+
+      redirect_to articles_path, alert: "You can only edit or delete stories you created."
     end
 end
