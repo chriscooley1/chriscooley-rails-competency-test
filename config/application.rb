@@ -33,10 +33,13 @@ module SimpleNews
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "America/Denver"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    # Don't generate system test files. Prefer Slim for views.
+    config.generators do |generate|
+      generate.system_tests = nil
+      generate.template_engine :slim
+    end
   end
 end

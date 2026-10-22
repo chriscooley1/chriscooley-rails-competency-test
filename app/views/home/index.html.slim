@@ -1,0 +1,15 @@
+- content_for :title, "Front page"
+h1 Front page
+p The first three stories from each section.
+
+- @articles_by_category.each do |category, articles|
+  section id="category-#{category.parameterize}"
+    h2= category
+    p= link_to "More #{category}", articles_path(category: category)
+    - if articles.any?
+      - articles.each do |article|
+        article.story
+          h3= link_to article.title, article
+          p= truncate(article.content.to_s.squish, length: 180)
+    - else
+      p Nothing filed in this section yet.

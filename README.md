@@ -1,6 +1,6 @@
 # Simple News
 
-A small Rails newsroom. This commit is the generated Rails app.
+A small Rails newsroom. Anyone can browse the front page, open a story, and publish one. Accounts come in a later commit.
 
 ## Setup
 
@@ -15,3 +15,9 @@ bin/rails server
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+## Tests
+
+```sh
+bin/rails test
+```

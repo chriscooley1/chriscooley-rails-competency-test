@@ -1,0 +1,15 @@
+= render "shared/form_errors", record: article
+= form_with model: article do |form|
+  p
+    = form.label :title
+    br
+    = form.text_field :title, required: true
+  p
+    = form.label :content
+    br
+    = form.text_area :content, required: true
+  p
+    = form.label :category, "Section"
+    br
+    = form.select :category, Article::CATEGORIES, { include_blank: "Choose a section" }, required: true
+  p= form.submit

@@ -1,0 +1,41 @@
+ultimate_newest:
+  title: Newest Ultimate
+  content: <%= ("Lead paragraph of the newest ultimate story. " * 8) + "UNIQUE_TAIL_MARKER" %>
+  category: Ultimate Frisbee
+  created_at: <%= 1.hour.ago %>
+
+ultimate_second:
+  title: Second Ultimate
+  content: The second ultimate story is still on the front page.
+  category: Ultimate Frisbee
+  created_at: <%= 2.hours.ago %>
+
+ultimate_third:
+  title: Third Ultimate
+  content: The third ultimate story fills the last front-page slot.
+  category: Ultimate Frisbee
+  created_at: <%= 3.hours.ago %>
+
+ultimate_oldest:
+  title: Oldest Ultimate
+  content: This older ultimate story belongs on the index, not the front page.
+  category: Ultimate Frisbee
+  created_at: <%= 4.days.ago %>
+
+running_story:
+  title: Easy Miles
+  content: The loop around the park was done before the group chat woke up.
+  category: Running
+  created_at: <%= 1.day.ago %>
+
+hiking_story:
+  title: Late Start on the Ridge
+  content: They left an hour late and still made the ridge for the view.
+  category: Hiking
+  created_at: <%= 26.hours.ago %>
+
+games_story:
+  title: One More Run
+  content: The last run of the night was not the last run.
+  category: Video Games
+  created_at: <%= 3.days.ago %>

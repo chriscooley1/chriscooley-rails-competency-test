@@ -1,0 +1,7 @@
+- content_for :title, @article.title
+p= @article.category
+h1= @article.title
+= simple_format(@article.content)
+p
+  = link_to "Edit", edit_article_path(@article)
+  = button_to "Delete", @article, method: :delete
