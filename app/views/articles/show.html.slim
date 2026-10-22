@@ -1,6 +1,6 @@
 - content_for :title, @article.title
-article.story-full class=@article.category.parameterize
-  p.kicker= @article.category
+article.story-full class=@article.section.name.parameterize style=section_style(@article.section)
+  p.kicker= @article.section.name
   h1= @article.title
   p.meta
     | By #{@article.user.email}

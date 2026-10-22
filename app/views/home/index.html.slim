@@ -4,11 +4,11 @@
 - else
   p.lede The first three stories from each section. Create an account to read a story in full.
 
-- @articles_by_category.each do |category, articles|
-  section.category-block class=category.parameterize id="category-#{category.parameterize}"
+- @articles_by_category.each do |section, articles|
+  section.category-block class=section.name.parameterize id="category-#{section.name.parameterize}" style=section_style(section)
     header.section-head
-      h2= category
-      = link_to "More #{category}", articles_path(category: category), class: "more"
+      h2= section.name
+      = link_to "More #{section.name}", articles_path(category: section.name), class: "more"
     - if articles.any?
       .grid
         - articles.each_with_index do |article, index|

@@ -10,7 +10,7 @@ class StoryBrowsingTest < ActionDispatch::IntegrationTest
     assert_no_match "Oldest Ultimate", response.body
     assert_no_match "UNIQUE_TAIL_MARKER", response.body
     assert_match "Create an account to read a story in full.", response.body
-    Article::CATEGORIES.each do |category|
+    [ "Ultimate Frisbee", "Running", "Hiking", "Video Games" ].each do |category|
       assert_select "#category-#{category.parameterize}"
     end
   end

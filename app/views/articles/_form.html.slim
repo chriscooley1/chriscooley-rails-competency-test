@@ -4,8 +4,13 @@
     = form.label :title
     = form.text_field :title, required: true, maxlength: 200, autofocus: true
   .field
-    = form.label :category, "Section"
-    = form.select :category, Article::CATEGORIES, { include_blank: "Choose a section" }, required: true
+    = form.label :section_id, "Section"
+    = form.select :section_id, Section.ordered.map { |section| [ section.name, section.id ] }, include_blank: "Choose a section"
+    p.hint Choose one of these, or add a new section below.
+  .field
+    = form.label :new_section_name, "New section"
+    p.hint A new name is added to the section list when the story is saved.
+    = form.text_field :new_section_name, maxlength: Section::MAX_NAME
   .field
     = form.label :content
     = form.text_area :content, required: true, rows: 14

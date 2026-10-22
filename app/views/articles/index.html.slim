@@ -1,19 +1,19 @@
-- content_for :title, (@category || "All stories")
-header.page-head class=(@category&.parameterize)
-  h1= @category || "All stories"
+- content_for :title, (@section&.name || "All stories")
+header.page-head class=(@section&.name&.parameterize) style=(section_style(@section) if @section)
+  h1= @section&.name || "All stories"
   - if logged_in?(:editor)
     = link_to "Write a story", new_article_path, class: "button"
 
 nav.section-nav
-  = link_to "All", articles_path, class: ("active" unless @category)
-  - Article::CATEGORIES.each do |category|
-    = link_to category, articles_path(category: category), class: [category.parameterize, ("active" if @category == category)]
+  = link_to "All", articles_path, class: ("active" unless @section)
+  - Section.ordered.each do |section|
+    = link_to section.name, articles_path(category: section.name), class: [section.name.parameterize, ("active" if @section == section)], style: section_style(section)
 
 - if @articles.any?
   .story-index
     - @articles.each do |article|
-      article.story-row class=article.category.parameterize
-        p.kicker= article.category
+      article.story-row class=article.section.name.parameterize style=section_style(article.section)
+        p.kicker= article.section.name
         h2= link_to article.title, article
         p.dek= article_excerpt(article)
         p.meta

@@ -1,0 +1,15 @@
+ultimate:
+  name: Ultimate Frisbee
+  created_at: <%= 4.days.ago %>
+
+running:
+  name: Running
+  created_at: <%= 3.days.ago %>
+
+hiking:
+  name: Hiking
+  created_at: <%= 2.days.ago %>
+
+games:
+  name: Video Games
+  created_at: <%= 1.day.ago %>

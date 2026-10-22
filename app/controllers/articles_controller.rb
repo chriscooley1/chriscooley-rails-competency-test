@@ -11,9 +11,9 @@ class ArticlesController < ApplicationController
   before_action :require_author, only: [ :edit, :update, :destroy ]
 
   def index
-    @category = params[:category].presence_in(Article::CATEGORIES)
-    @articles = Article.recent.includes(:user)
-    @articles = @articles.where(category: @category) if @category
+    @section = Section.named(params[:category]) if params[:category].present?
+    @articles = Article.recent.includes(:user, :section)
+    @articles = @articles.where(section: @section) if @section
   end
 
   def show
@@ -51,11 +51,11 @@ class ArticlesController < ApplicationController
 
   private
     def set_article
-      @article = Article.find(params[:id])
+      @article = Article.includes(:user, :section).find(params[:id])
     end
 
     def article_params
-      params.require(:article).permit(:title, :content, :category)
+      params.require(:article).permit(:title, :content, :section_id, :new_section_name)
     end
 
     def redirect_guests_to_signup

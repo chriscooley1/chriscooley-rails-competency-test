@@ -9,8 +9,11 @@ editor.update!(password: password, password_confirmation: password, role: :edito
 admin = User.find_or_initialize_by(email: "admin@example.com")
 admin.update!(password: password, password_confirmation: password, role: :admin)
 
-Article.where.not(category: Article::CATEGORIES).delete_all
 Article.where(title: "The Disc in the Trunk").delete_all
+
+section_named = lambda do |name|
+  Section.named(name) || Section.create!(name: name)
+end
 
 stories = [
   [ "The Layout Saved the Point", "Ultimate Frisbee", 2, editor,
@@ -41,11 +44,11 @@ stories = [
     "The character was standing exactly where the last session ended. Inventory still wrong, quest still half done, and it felt like opening a notebook from another season." ]
 ]
 
-stories.each do |title, category, hours_old, author, content|
+stories.each do |title, section_name, hours_old, author, content|
   published_at = hours_old.hours.ago
   article = Article.find_or_initialize_by(title: title)
   article.update!(
-    category: category,
+    section: section_named.call(section_name),
     content: content,
     user: author,
     created_at: published_at,

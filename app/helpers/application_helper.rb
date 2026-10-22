@@ -14,4 +14,9 @@ module ApplicationHelper
   def article_excerpt(article, length: 180)
     article.content.to_s.squish.truncate(length)
   end
+
+  def section_style(section)
+    tones = [ "#b45309", "#1d4e89", "#1b5e38", "#5b35b5", "#9f1239", "#0f766e" ]
+    "--section: #{tones[(section.id - 1) % tones.length]}"
+  end
 end
