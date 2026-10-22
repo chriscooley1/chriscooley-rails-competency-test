@@ -6,6 +6,8 @@ class Article < ApplicationRecord
     "Video Games"
   ].freeze
 
+  belongs_to :user
+
   validates :title, presence: true, length: { maximum: 200 }
   validates :content, presence: true
   validates :category, presence: true, inclusion: { in: CATEGORIES }
@@ -14,7 +16,7 @@ class Article < ApplicationRecord
 
   def self.homepage_groups
     CATEGORIES.index_with do |category|
-      recent.where(category: category).limit(3).to_a
+      recent.includes(:user).where(category: category).limit(3).to_a
     end
   end
 end

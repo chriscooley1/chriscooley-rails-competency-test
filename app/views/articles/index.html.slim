@@ -10,6 +10,7 @@ nav
     article
       p= article.category
       h2= link_to article.title, article
+      p= article.user.email
       p= truncate(article.content.to_s.squish, length: 180)
 - else
   p No stories yet.

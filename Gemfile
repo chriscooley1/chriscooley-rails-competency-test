@@ -17,6 +17,9 @@ gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 
+# Accounts.
+gem "devise"
+
 # Slim templates.
 gem "slim-rails"
 

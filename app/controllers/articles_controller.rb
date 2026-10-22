@@ -1,9 +1,11 @@
 class ArticlesController < ApplicationController
+  before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_article, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_guests_to_signup, only: :show
 
   def index
     @category = params[:category].presence_in(Article::CATEGORIES)
-    @articles = Article.recent
+    @articles = Article.recent.includes(:user)
     @articles = @articles.where(category: @category) if @category
   end
 
@@ -11,11 +13,11 @@ class ArticlesController < ApplicationController
   end
 
   def new
-    @article = Article.new
+    @article = current_user.articles.build
   end
 
   def create
-    @article = Article.new(article_params)
+    @article = current_user.articles.build(article_params)
 
     if @article.save
       redirect_to @article, notice: "Story published."
@@ -47,5 +49,12 @@ class ArticlesController < ApplicationController
 
     def article_params
       params.require(:article).permit(:title, :content, :category)
+    end
+
+    def redirect_guests_to_signup
+      return if user_signed_in?
+
+      store_location_for(:user, article_path(@article))
+      redirect_to new_user_registration_path, alert: "Create an account to read the full story."
     end
 end

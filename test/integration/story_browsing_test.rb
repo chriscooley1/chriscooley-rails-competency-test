@@ -9,6 +9,7 @@ class StoryBrowsingTest < ActionDispatch::IntegrationTest
     assert_match "Newest Ultimate", response.body
     assert_no_match "Oldest Ultimate", response.body
     assert_no_match "UNIQUE_TAIL_MARKER", response.body
+    assert_match "Create an account to read a story in full.", response.body
     Article::CATEGORIES.each do |category|
       assert_select "#category-#{category.parameterize}"
     end
@@ -38,7 +39,15 @@ class StoryBrowsingTest < ActionDispatch::IntegrationTest
     assert_match "Easy Miles", response.body
   end
 
-  test "a story page shows the full text" do
+  test "a guest is sent to signup when they open a story" do
+    get article_path(articles(:ultimate_newest))
+
+    assert_redirected_to new_user_registration_path
+    assert_equal "Create an account to read the full story.", flash[:alert]
+  end
+
+  test "a signed-in reader sees the full story" do
+    sign_in users(:reader)
     get article_path(articles(:ultimate_newest))
 
     assert_response :success

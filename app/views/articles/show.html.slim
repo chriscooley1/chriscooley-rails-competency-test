@@ -1,5 +1,6 @@
 - content_for :title, @article.title
 p= @article.category
+p= @article.user.email
 h1= @article.title
 = simple_format(@article.content)
 p

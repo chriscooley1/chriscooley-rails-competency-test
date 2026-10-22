@@ -1,6 +1,6 @@
 # Simple News
 
-A small Rails newsroom. Anyone can browse the front page, open a story, and publish one. Accounts come in a later commit.
+A small Rails newsroom. Anyone can browse the front page. Reading a full story, or publishing one, requires an account. Roles come in a later commit.
 
 ## Setup
 

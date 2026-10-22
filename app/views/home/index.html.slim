@@ -1,6 +1,9 @@
 - content_for :title, "Front page"
 h1 Front page
-p The first three stories from each section.
+- if user_signed_in?
+  p The first three stories from each section.
+- else
+  p The first three stories from each section. Create an account to read a story in full.
 
 - @articles_by_category.each do |category, articles|
   section id="category-#{category.parameterize}"
