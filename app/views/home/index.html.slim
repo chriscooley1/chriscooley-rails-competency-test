@@ -1,18 +1,23 @@
 - content_for :title, "Front page"
-h1 Front page
 - if user_signed_in?
-  p The first three stories from each section.
+  p.lede The first three stories from each section.
 - else
-  p The first three stories from each section. Create an account to read a story in full.
+  p.lede The first three stories from each section. Create an account to read a story in full.
 
 - @articles_by_category.each do |category, articles|
-  section id="category-#{category.parameterize}"
-    h2= category
-    p= link_to "More #{category}", articles_path(category: category)
+  section.category-block id="category-#{category.parameterize}"
+    header.section-head
+      h2= category
+      = link_to "More #{category}", articles_path(category: category), class: "more"
     - if articles.any?
-      - articles.each do |article|
-        article.story
-          h3= link_to article.title, article
-          p= truncate(article.content.to_s.squish, length: 180)
+      .grid
+        - articles.each do |article|
+          article.story
+            h3= link_to article.title, article
+            p.dek= article_excerpt(article)
+            p.meta
+              = article.user.email
+              span.dot ·
+              = story_date(article.created_at)
     - else
-      p Nothing filed in this section yet.
+      p.empty Nothing filed in this section yet.

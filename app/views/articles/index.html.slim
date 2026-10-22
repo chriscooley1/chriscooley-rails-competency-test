@@ -1,16 +1,27 @@
 - content_for :title, (@category || "All stories")
-h1= @category || "All stories"
-nav
-  = link_to "All", articles_path
+header.page-head
+  h1= @category || "All stories"
+  - if logged_in?(:editor)
+    = link_to "Write a story", new_article_path, class: "button"
+
+nav.section-nav
+  = link_to "All", articles_path, class: ("active" unless @category)
   - Article::CATEGORIES.each do |category|
-    = link_to category, articles_path(category: category)
+    = link_to category, articles_path(category: category), class: ("active" if @category == category)
 
 - if @articles.any?
-  - @articles.each do |article|
-    article
-      p= article.category
-      h2= link_to article.title, article
-      p= article.user.email
-      p= truncate(article.content.to_s.squish, length: 180)
+  .story-index
+    - @articles.each do |article|
+      article.story-row
+        p.kicker= article.category
+        h2= link_to article.title, article
+        p.dek= article_excerpt(article)
+        p.meta
+          = article.user.email
+          span.dot ·
+          = story_date(article.created_at)
+        - if article.manageable_by?(current_user)
+          p.row-actions
+            = link_to "Edit", edit_article_path(article)
 - else
-  p No stories yet.
+  p.empty No stories in this section yet.

@@ -1,0 +1,26 @@
+- content_for :title, "Account"
+section.auth-card
+  h1 Account
+  p.meta= current_user.role_label
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |form|
+    = render "devise/shared/error_messages", resource: resource
+    .field
+      = form.label :email
+      = form.email_field :email, autofocus: true, autocomplete: "email", required: true
+    - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+      p Currently waiting confirmation for: #{resource.unconfirmed_email}
+    .field
+      = form.label :password
+      p.hint Leave this blank to keep your current password.
+      = form.password_field :password, autocomplete: "new-password"
+    .field
+      = form.label :password_confirmation
+      = form.password_field :password_confirmation, autocomplete: "new-password"
+    .field
+      = form.label :current_password
+      p.hint Required to save changes.
+      = form.password_field :current_password, autocomplete: "current-password", required: true
+    .actions
+      = form.submit "Update account"
+  h2 Close account
+  p= button_to "Cancel my account", registration_path(resource_name), method: :delete, class: "button danger", data: { turbo_confirm: "Cancel your account?" }

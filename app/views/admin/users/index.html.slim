@@ -1,17 +1,19 @@
 - content_for :title, "People"
-h1 People
-p Create accounts and choose who can publish.
-p= link_to "New user", new_admin_user_path
+header.page-head
+  h1 People
+  = link_to "New user", new_admin_user_path, class: "button"
+p.lede Create accounts and choose who can publish.
 
-table
-  thead
-    tr
-      th Email
-      th Role
-      th
-  tbody
-    - @users.each do |user|
+.table-wrap
+  table.people
+    thead
       tr
-        td= user.email
-        td= user.role_label
-        td= link_to "Edit", edit_admin_user_path(user)
+        th Email
+        th Role
+        th
+    tbody
+      - @users.each do |user|
+        tr
+          td= user.email
+          td= user.role_label
+          td.actions= link_to "Edit", edit_admin_user_path(user)

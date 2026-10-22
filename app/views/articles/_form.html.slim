@@ -1,15 +1,14 @@
-= render "shared/form_errors", record: article
-= form_with model: article do |form|
-  p
+= form_with model: @article, class: "sheet" do |form|
+  = render "shared/form_errors", record: @article
+  .field
     = form.label :title
-    br
-    = form.text_field :title, required: true
-  p
-    = form.label :content
-    br
-    = form.text_area :content, required: true
-  p
+    = form.text_field :title, required: true, maxlength: 200, autofocus: true
+  .field
     = form.label :category, "Section"
-    br
     = form.select :category, Article::CATEGORIES, { include_blank: "Choose a section" }, required: true
-  p= form.submit
+  .field
+    = form.label :content
+    = form.text_area :content, required: true, rows: 14
+  .actions
+    = form.submit(@article.new_record? ? "Publish story" : "Save changes")
+    = link_to "Cancel", (@article.persisted? ? @article : articles_path), class: "text-link"

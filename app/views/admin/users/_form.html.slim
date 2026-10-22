@@ -1,27 +1,21 @@
-= render "shared/form_errors", record: @user, noun: "account"
-= form_with model: [:admin, @user] do |form|
-  p
+= form_with model: [:admin, @user], class: "sheet" do |form|
+  = render "shared/form_errors", record: @user, noun: "account"
+  .field
     = form.label :email
-    br
     = form.email_field :email, required: true, autofocus: true, autocomplete: "off"
-  p
+  .field
     = form.label :role
-    br
     = form.select :role, User.role_options
-  p
+  .field
     = form.label :password
-    br
     - if @user.persisted?
-      | Leave this blank to keep the current password.
+      p.hint Leave this blank to keep the current password.
     - else
-      | #{User.password_length.min} characters minimum.
-    br
+      p.hint= "#{User.password_length.min} characters minimum."
     = form.password_field :password, autocomplete: "new-password", required: @user.new_record?
-  p
+  .field
     = form.label :password_confirmation, "Confirm password"
-    br
     = form.password_field :password_confirmation, autocomplete: "new-password", required: @user.new_record?
-  p
+  .actions
     = form.submit(@user.new_record? ? "Create account" : "Save account")
-    |  
-    = link_to "Cancel", admin_users_path
+    = link_to "Cancel", admin_users_path, class: "text-link"

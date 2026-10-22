@@ -1,33 +1,49 @@
 doctype html
 html lang="en"
   head
-    title= content_for?(:title) ? "#{content_for(:title)} · Simple News" : "Simple News"
+    title= page_title
     meta name="viewport" content="width=device-width,initial-scale=1"
+    meta name="application-name" content="Simple News"
     = csrf_meta_tags
     = csp_meta_tag
+    link rel="icon" href="/icon.svg" type="image/svg+xml"
+    link rel="apple-touch-icon" href="/icon.png"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,650;0,6..72,700;1,6..72,500&family=Source+Sans+3:wght@400;600;700&display=swap"
     = stylesheet_link_tag :app, "data-turbo-track": "reload"
     = javascript_importmap_tags
   body
-    header
-      p= link_to "Simple News", root_path
-      nav
-        = link_to "Home", root_path
-        = link_to "All stories", articles_path
-        - if logged_in?(:editor)
-          = link_to "Write", new_article_path
-        - if logged_in?(:admin)
-          = link_to "People", admin_users_path
-        - if user_signed_in?
-          = current_user.email
-          = current_user.role_label
-          = link_to "Account", edit_user_registration_path
-          = button_to "Log out", destroy_user_session_path, method: :delete
+    header.masthead
+      .wrap
+        p.dateline= Date.current.strftime("%A, %B #{Date.current.day}, %Y")
+        - if current_page?(root_path)
+          h1.wordmark Simple News
         - else
-          = link_to "Log in", new_user_session_path
-          = link_to "Sign up", new_user_registration_path
-    - if notice
-      p= notice
-    - if alert
-      p= alert
-    main
-      = yield
+          p.wordmark= link_to "Simple News", root_path
+        p.tagline Reporting, by section
+        nav
+          = link_to "Home", root_path, class: ("active" if current_page?(root_path))
+          = link_to "All stories", articles_path, class: ("active" if current_page?(articles_path))
+          - if logged_in?(:editor)
+            = link_to "Write", new_article_path
+          - if logged_in?(:admin)
+            = link_to "People", admin_users_path
+          span.nav-spacer
+          - if user_signed_in?
+            span.identity
+              = current_user.email
+              span.badge= current_user.role_label
+            = link_to "Account", edit_user_registration_path
+            = button_to "Log out", destroy_user_session_path, method: :delete, class: "nav-button"
+          - else
+            = link_to "Log in", new_user_session_path
+            = link_to "Sign up", new_user_registration_path, class: "nav-signup"
+    .wrap
+      - if notice.present?
+        p.flash.notice= notice
+      - if alert.present?
+        p.flash.alert= alert
+      main#content
+        = yield
+    footer.colophon
+      .wrap
+        p Simple News keeps the front page open and the full story behind an account.

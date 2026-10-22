@@ -1,0 +1,24 @@
+- content_for :title, "Log in"
+section.auth-card
+  h1 Log in
+  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
+    .field
+      = form.label :email
+      = form.email_field :email, autofocus: true, autocomplete: "email", required: true
+    .field
+      = form.label :password
+      = form.password_field :password, autocomplete: "current-password", required: true
+    - if devise_mapping.rememberable?
+      .field.check
+        = form.check_box :remember_me
+        = form.label :remember_me
+    .actions
+      = form.submit "Log in"
+  = render "devise/shared/links"
+  - if Rails.env.development?
+    aside.demo-accounts
+      p Demo accounts use the password password123
+      ul
+        li reader@example.com — Reader
+        li editor@example.com — Editor
+        li admin@example.com — Admin

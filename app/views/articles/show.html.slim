@@ -1,9 +1,13 @@
 - content_for :title, @article.title
-p= @article.category
-p= @article.user.email
-h1= @article.title
-= simple_format(@article.content)
-- if @article.manageable_by?(current_user)
-  p
-    = link_to "Edit", edit_article_path(@article)
-    = button_to "Delete", @article, method: :delete
+article.story-full
+  p.kicker= @article.category
+  h1= @article.title
+  p.meta
+    | By #{@article.user.email}
+    span.dot ·
+    = story_date(@article.created_at)
+  .article-body= simple_format(@article.content)
+  - if @article.manageable_by?(current_user)
+    .story-actions
+      = link_to "Edit", edit_article_path(@article), class: "button"
+      = button_to "Delete", @article, method: :delete, class: "button danger", data: { turbo_confirm: "Delete this story?" }
