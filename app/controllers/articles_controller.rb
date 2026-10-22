@@ -1,13 +1,12 @@
 class ArticlesController < ApplicationController
-  # Guests may browse. Only editors may publish.
+  # The list is public. Reading needs an account. Writing needs an editor.
   access "You do not have permission to change articles.",
-    all: [ :index, :show ],
+    all: [ :index ],
+    user: [ :show ],
     editor: [ :new, :create, :edit, :update, :destroy ]
 
   before_action :set_article, only: [ :show, :edit, :update, :destroy ]
-  # Signup, rather than the login page Petergate uses for a denied guest.
-  before_action :redirect_guests_to_signup, only: :show
-  # Petergate knows the role, not which editor wrote the story.
+  # Access already required an editor. This only checks who wrote the story.
   before_action :require_author, only: [ :edit, :update, :destroy ]
 
   def index
@@ -58,15 +57,16 @@ class ArticlesController < ApplicationController
       params.require(:article).permit(:title, :content, :section_id, :new_section_name)
     end
 
-    def redirect_guests_to_signup
-      return if user_signed_in?
+    # A guest turned away from a story goes to signup. Access would send them to login.
+    def authenticate_user!(...)
+      return super unless action_name == "show"
 
-      store_location_for(:user, article_path(@article))
+      store_location_for(:user, request.fullpath)
       redirect_to new_user_registration_path, alert: "Create an account to read the full story."
     end
 
     def require_author
-      return if @article.manageable_by?(current_user)
+      return if current_user.id == @article.user_id
 
       redirect_to articles_path, alert: "You can only edit or delete stories you created."
     end
